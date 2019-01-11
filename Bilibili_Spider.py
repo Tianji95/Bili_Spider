@@ -106,6 +106,10 @@ def download(i, Video_List, path):
     html = requests.get(url, headers=headers, verify=False).text
     url_patn = re.compile(r'"url":"(.*?)","backup_url"')
     Video_Url = []
+    findUrl = re.findall(url_patn, html)
+    if len(findUrl) is 0:
+        print("这个视频没有找到加密密钥，遗憾跳过")
+        return
     Video_Url.append(re.findall(url_patn, html)[0])  # 这个是URL
     print(Video_Url[0])
     host_patn = re.compile('http://(.*?)/upgcxcode')
