@@ -48,7 +48,6 @@ def get_Mainpage_Video(User_Mid):
                 tmp = {"aid": aid, "title": title, "author": author}
                 video_List.append(tmp)
         else:
-            video_List = []
             for num in range(videoLen):
                 aid = content['data']['vlist'][num]['aid']
                 title = content['data']['vlist'][num]['title']
