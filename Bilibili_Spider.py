@@ -36,12 +36,12 @@ def get_Mainpage_Video(User_Mid):
         # 最大的请求size是100
 
         content = requests.get(url, headers=headers, verify=False).json()
-        i = content['data']['count']  # 视频个数
+        videoLen = len(content['data']['vlist'])  # 视频个数
         if not content['data']['tlist']:
             return video_List
-        if i >= 100:
-            i = 100
-            for num in range(i):
+        if videoLen >= 100:
+            videoLen = 100
+            for num in range(videoLen):
                 aid = content['data']['vlist'][num]['aid']
                 title = content['data']['vlist'][num]['title']
                 author = content['data']['vlist'][num]['author']
@@ -49,7 +49,7 @@ def get_Mainpage_Video(User_Mid):
                 video_List.append(tmp)
         else:
             video_List = []
-            for num in range(i):
+            for num in range(videoLen):
                 aid = content['data']['vlist'][num]['aid']
                 title = content['data']['vlist'][num]['title']
                 author = content['data']['vlist'][num]['author']
@@ -69,6 +69,7 @@ def sub(s):
     patn_7 = re.compile(r'\>')
     patn_8 = re.compile(r'\*')
     patn_9 = re.compile(r'\:')
+    patn_10 = re.compile(r'\"')
 
     s = re.sub(patn_1, "", s)
     s = re.sub(patn_2, "", s)
@@ -79,6 +80,7 @@ def sub(s):
     s = re.sub(patn_7, "", s)
     s = re.sub(patn_8, "", s)
     s = re.sub(patn_9, "", s)
+    s = re.sub(patn_10, "", s)
     return s
 
 
@@ -143,7 +145,9 @@ def download(i, Video_List, path):
 
 # 主函数
 def main():
-    User_MidList = [116683, 119418, 848008, 1600113, 8953399, 15404697, 22205138, 941422, 5419194, 13090765, 779540, 259333, 269558, 378034, 521444, 99673, 121075, 433715, 18841842, 20067185, 13344964, 351732200]
+
+    User_MidList = [# 116683, 119418, 848008, 1600113, 8953399, 15404697, 22205138, 941422, 5419194, 13090765, 779540, 259333,
+        269558, 378034, 521444, 99673, 121075, 433715, 18841842, 20067185, 13344964, 351732200]
     for i in range(len(User_MidList)):
         User_Mid = User_MidList[i]  # 在这里改你的Up主编号
         Video_List = get_Mainpage_Video(User_Mid)  # 拿到视频列表
